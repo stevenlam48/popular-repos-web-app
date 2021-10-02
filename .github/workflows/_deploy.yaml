@@ -16,7 +16,7 @@ env:
 
 jobs:
 
-  deploy_to_review:
+  deploy:
     name: Deploy to ${{ inputs.environment }}
     runs-on: ubuntu-latest
     environment: 
@@ -41,33 +41,3 @@ jobs:
         app-name: 'popular-repos'
         images: '${{ secrets.AZURE_REGISTRY_NAME }}/popular-repos:${{ github.event.pull_request.head.sha }}'
         slot-name: review-pr-${{ github.event.number }}
-
-  deploy_to_staging:
-
-    - name: Deploy popular repos
-      uses: azure/webapps-deploy@v2
-      id: popular-repos-web
-      with:
-        app-name: 'popular-repos'
-        images: '${{ secrets.AZURE_REGISTRY_NAME }}/popular-repos:${{ github.sha }}'
-        slot-name: staging
-
-  deploy_to_production:
-    name: Deploy Production
-    if: github.event.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment: 
-      name: production
-      url: https://popular-repos.azurewebsites.net
-    concurrency: production
-    needs: deploy_to_staging
-    steps:
-    - name: Azure login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_SUBSCRIPTION_SECRET }}
-
-    - name: Swap staging to production
-      run: |
-        az webapp deployment slot swap --name popular-repos --resource-group pied-piper-inc --slot staging --target-slot production
-
