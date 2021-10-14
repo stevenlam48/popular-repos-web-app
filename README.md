@@ -6,5 +6,5 @@
  </p>
 
 # About
-This repo demonstrates how you can publish a container based application to GitHub Packages.  It is intendended for _for demonstration use only_.
+This repo demonstrates how you can cache dependencies with GitHub Actions.  It is intendended for _for demonstration use only_.
 
