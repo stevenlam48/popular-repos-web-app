@@ -6,4 +6,7 @@ on:
 jobs:
   call-workflow:
     uses: stevenlam48/popular-repos-web-app/.github/workflows/build_reuse.yml@main
+    with:
+      node_ver: 14.v
+
 
