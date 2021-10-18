@@ -16,7 +16,7 @@ jobs:
     - name: Setup node given version or 12
       uses: actions/setup-node@v2-beta
       with:
-        node-version: ${{ inputs.node_ver }} || '12.x'
+        node-version: ${{ inputs.node_ver || '12.x' }}
 
     - name: Cache node modules
       id: cache-node
